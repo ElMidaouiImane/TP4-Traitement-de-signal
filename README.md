@@ -28,7 +28,7 @@
 
 # Filtrage et diagramme de Bode  
 Nous souhaitons appliquer un filtre passe-haut pour supprimer la composante à 50 Hz. Soit notre signal d'entrée :<br/><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;**x(t) = sin(2.pi.f1.t) + sin(2.pi.f2.t) + sin(2.pi.f3.t)**  
+&nbsp;&nbsp;&nbsp;&nbsp;**x(t) = sin(2.pi.f1.t) + sin(2.pi.f2.t) + sin(2.pi.f3.t)**  <br/><br/>
 Avec f1 = 500 Hz, f2 = 400 Hz et f3 = 50 Hz  
 <br/>
 1. Définir le signal x(t) sur t = [0 5] avec Te = 0,0001 s.
