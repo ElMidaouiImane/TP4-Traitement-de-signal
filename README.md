@@ -36,7 +36,7 @@ Avec f1 = 500 Hz, f2 = 400 Hz et f3 = 50 Hz
 %Definition des variables et de signal 
 te = 1e-4 ;
 fe = 1/te ;
-t = 0:te:5 ;
+t = 0:te:5-te ;
 x = sin(2*pi*500*t)+ sin(2*pi*400*t)+ sin(2*pi* 50*t) ;
 N = length(x);
 ```
@@ -233,8 +233,6 @@ h_filter = [h(1:floor(N/2)), flip(h(1:floor(N/2)))];
 y_filtr = spectre_music(1:end-1).*h_filter;
 sig_filtred= ifft(y_filtr,"symmetric");
 
-%semilogx(f(1:floor(N/2)),abs( h(1:floor(N/2))),'linewidth',1.5)
-
 plot(fshift(1:end-1),fftshift(abs(fft(sig_filtred))))
 title('spectre filtré avec K = 1')
 ```
@@ -252,17 +250,52 @@ h_filter = [h(1:floor(N/2)), flip(h(1:floor(N/2)))];
 y_filtr = spectre_music(1:end-1).*h_filter;
 sig_filtred= ifft(y_filtr,"symmetric");
 
-%semilogx(f(1:floor(N/2)),abs( h(1:floor(N/2))),'linewidth',1.5)
-
 plot(fshift(1:end-1),fftshift(abs(fft(sig_filtred))))
 title('spectre filtré avec K = 10')
 ```
 ![k=10](https://user-images.githubusercontent.com/121026639/215271912-c74de8c0-715e-4b10-9f28-fb3065de1893.png)
 
-#### On peut observer la différence lorsqu'on écoute les deux versions de signal , avec K = 1 la musique est perdu avec le bruit , et avec K = 10 on fait une amplifiaction de la fréquence et on peut écouter mieux la musique  
+#### On peut observer la différence lorsqu'on écoute les deux versions de signal ,Le paramètre K du filtre est le gain en amplitude à la fréquence de coupure (fc) du filtre. Il est utilisé pour augmenter ou diminuer l'amplitude des fréquences qui passent à travers le filtre. Plus le paramètre K est élevé, plus l'amplitude des fréquences autour de la fréquence de coupure sera élevée, et inversement. Il est utilisé pour ajuster l'amplitude des fréquences conservées par le filtre. Dans le code spécifié, le paramètre K est égal à 1, ce qui signifie qu'il n'y a pas de gain en amplitude appliqué aux fréquences qui passent à travers le filtre. Alors , lorsqu'on augmenté le gain a 10 , c'est-à-dire amplification , on remarque un progres du qualité du signal .
 
 3. Quelles remarques pouvez-vous faire notamment sur la sonorité du signal final.
 
+#### le paramètre K du filtre correspond à l'amplitude de sortie du filtre.En effet , lorsqu on a augmenter  K a 10, l'amplitude des fréquences qui passent à travers le filtre est élevée, c'est l'amplification .
 
+4. Améliorer la qualité de filtrage en augmentant l’ordre du filtre.
+#### On essaye avec ordre = 2
+```matlab
+k = 1;
+fc = 1000;
+%la transmitance complexe 
+h = k./(1+1j*(f/fc).^2);
+
+h_filter = [h(1:floor(N/2)), flip(h(1:floor(N/2)))];
+
+y_filtr = spectre_music(1:end-1).*h_filter;
+sig_filtred= ifft(y_filtr,"symmetric");
+
+plot(fshift(1:end-1),fftshift(abs(fft(sig_filtred))))
+title('spectre filtré avec K = 1')
+```
+![ordre = 2](https://user-images.githubusercontent.com/121026639/215274376-c0ecded0-c514-406d-a84d-86cc8376b2d3.png)
+
+#### On essaye avec ordre = 5
+```matlab
+k = 1;
+fc = 1000;
+%la transmitance complexe 
+h = k./(1+1j*(f/fc).^5);
+
+h_filter = [h(1:floor(N/2)), flip(h(1:floor(N/2)))];
+
+y_filtr = spectre_music(1:end-1).*h_filter;
+sig_filtred= ifft(y_filtr,"symmetric");
+
+plot(fshift(1:end-1),fftshift(abs(fft(sig_filtred))))
+title('spectre filtré avec K = 1')
+```
+![ordre = 5](https://user-images.githubusercontent.com/121026639/215274402-39d50424-f86b-481f-a5ed-f27eb55e6c88.png)
+
+#### On remarque que plus l'ordre est grand plus le filtre est efficace
 
 
